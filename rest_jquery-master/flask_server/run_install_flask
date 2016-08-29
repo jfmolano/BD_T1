@@ -1,0 +1,5 @@
+virtualenv venv
+. venv/bin/activate
+pip install Flask
+export FLASK_APP=app_taller1.py
+flask run

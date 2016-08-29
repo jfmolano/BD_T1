@@ -14,7 +14,7 @@ $(document).ready(function() {
         trHTML += '<tr><td>' + item["nombre"] + '</td><td>' + item["link"] + '</td></tr>';
     });
     
-    $('#location').append(trHTML);
+    //$('#location').append(trHTML);
     });
 
     /*$.each(data.Countries, function (i, item) {

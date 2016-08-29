@@ -14,13 +14,5 @@
             <input id = "Suma" type="submit" value="Sumar"/>
             <input id = "Resta" type="submit" value="Restar"/>
         </div>
-	<div>
-	<table id="location" border='1'>
-    	<tr>
-        <th>Dependencia</th>
-        <th>Link</th>
-    	</tr>
-</table>
-	</div>
     </body>
 </html>

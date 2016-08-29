@@ -1,4 +1,6 @@
+# encoding=utf-8
 import scrapy
+from unidecode import unidecode
 
 from tutorial.items import DmozItem
 from tutorial.items import DependenciaItem
@@ -16,12 +18,13 @@ class DmozSpider(scrapy.Spider):
 	submenu_facultades = submenus[4].xpath('li')
 	submenu_deptos = submenus[5].xpath('li')
 	lista_dependencias = submenu_facultades + submenu_deptos
-        for dependencia in submenu_facultades:
+        for dependencia in lista_dependencias:
 		item = DependenciaItem()
-		nombre = facultad.xpath('a/text()').extract()[0]
+		#nombre = unidecode(dependencia.xpath('a/text()').extract()[0])
+		nombre = dependencia.xpath('a/text()').extract()[0].encode('utf8').decode('utf8')
 		print "nombre "+ nombre
-		link = facultad.xpath('a/@href').extract()[0]
-		print "link "+ link
 		item['nombre'] = nombre
+		link = dependencia.xpath('a/@href').extract()[0]
+		print "link "+ link
 		item['link'] = link
 		yield item
