@@ -7,12 +7,15 @@
 
 import scrapy
 
-
 class DmozItem(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
     desc = scrapy.Field()
 
-class FacultadItem(scrapy.Item):
+class DependenciaItem(scrapy.Item):
+    nombre = scrapy.Field()
+    link = scrapy.Field()
+
+class EventoItem(scrapy.Item):
     nombre = scrapy.Field()
     link = scrapy.Field()
