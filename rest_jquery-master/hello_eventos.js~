@@ -1,0 +1,69 @@
+$(document).ready(function() {
+    var trHTML = '';
+    url_get = "http://localhost:5000/api/eventos"
+        console.log(url_get)
+        $.ajax({
+	type: "GET",
+        url: url_get
+        }).then(function(data) {
+            console.log("data: ")
+            console.log(data)
+		$.each(data, function (i, item) {
+        	console.log(i)
+        	console.log(item)
+        trHTML += '<tr><td>' + item["nombre"] + '</td><td>' + item["dependencia"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"]  + '</td><td>' + item["link"] + '</td></tr>';
+    });
+    
+    $('#location').append(trHTML);
+    });
+
+    /*$.each(data.Countries, function (i, item) {
+        
+        trHTML += '<tr><td>' + data.Countries[i] + '</td><td>' + data.Cities[i] + '</td></tr>';
+    });
+    
+    $('#location').append(trHTML);*/
+
+
+    $("#Resta").click(function(){
+        var A = $('#txt_A').val();
+        var B = $('#txt_B').val();
+        console.log("A " + A)
+        console.log("B " + B)
+        url_get = "http://localhost:5000/api/resta/" + A + "/" + B
+        console.log(url_get)
+        $.ajax({
+	type: "GET",
+        url: url_get
+        }).then(function(data) {
+            console.log("data: " + data)
+	    console.log("data.marca " + data.marca)
+	    console.log("data.marca.Resultado " + data.marca.Resultado)
+       $('#resultado_text').text(data.marca.Resultado);
+    });
+    });
+
+    $("#Suma").click(function(){
+        console.log("Suma")
+        var A = $('#txt_A').val();
+        var B = $('#txt_B').val();
+        console.log("A " + A)
+        console.log("B " + B)
+        url_post = "http://localhost:5000/api/suma"
+	var jsonData = "{\"A\":\""+A+"\",\"B\":\""+B+"\"}";
+        console.log(url_post)
+        console.log("JSON: "+jsonData)
+        $.ajax({
+	type: "POST",
+  	data: jsonData,
+    	contentType: "application/json; charset=utf-8",
+  	dataType: "json",
+        url: url_post
+        }).then(function(data) {
+            console.log("data: " + data)
+	    console.log("data.marca " + data.marca)
+	    console.log("data.marca.Resultado " + data.marca.Resultado)
+       $('#resultado_text').text(data.marca.Resultado);
+    });
+    });
+});

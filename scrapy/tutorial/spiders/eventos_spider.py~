@@ -90,6 +90,9 @@ class EventosSpider(scrapy.Spider):
 	contenido_str = ""
 	for evento_d in contenido:
 		contenido_str = contenido_str + evento_d.extract()
+	hora = response.xpath('//*[contains(text(),"Hora:")]')[0].extract()
+	hora_str = ""
+	if hora
 	item['hora'] = response.xpath('//*[contains(text(),"Hora:")]')[0].extract().replace("Hora:","")
 	item['lugar'] = response.xpath('//*[contains(text(),"Lugar:")]')[0].extract().replace("Lugar:","")
 	item['nombre_e'] = "-"

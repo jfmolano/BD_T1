@@ -86,7 +86,7 @@ class EventosSpider(scrapy.Spider):
 	item['nombre'] = response.xpath('//div[@class="event-detail-header"]/h2/text()')[0].extract()
 	item['fecha'] = response.xpath('//div[@class="event-detail-month"]/text()')[0].extract() + " " + response.xpath('//div[@class="event-detail-day"]/text()')[0].extract()
 	contenido_div = response.xpath('//div[@class="event-detail-description"]')
-	contenido = contenido_div.xpath('*[text() and not(@class="pull-right")]//text()')
+	contenido = contenido_div.xpath('*[text() and not(@name="script")]//text()')
 	contenido_str = ""
 	for evento_d in contenido:
 		contenido_str = contenido_str + evento_d.extract()

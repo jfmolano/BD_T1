@@ -32,6 +32,17 @@ def get_marcas():
 	#data = json.loads(json_data)
 	return jsonify(json.loads(json_data)), 201
 
+@app.route('/api/eventos', methods=['GET'])
+def get_eventos():
+	#json_data=open("../../scrapy/items.json", encoding='utf-8').read()
+	with io.open("eventos.json",'r',encoding='utf-8') as f:
+    		json_data = f.read()
+	print json_data
+	json_data = unicode(json_data)
+	#json_data = json_data.replace(r"""\u00f1""","ñ")
+	#data = json.loads(json_data)
+	return jsonify(json.loads(json_data)), 201
+
 @app.route('/api/suma', methods=['POST'])
 def dar_suma_post():
 	if not request.json or not 'A' in request.json:
