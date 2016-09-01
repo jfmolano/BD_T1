@@ -50,21 +50,51 @@ def parse_admin_evento(url):
 
 #INICIO SCRIPT - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 url_eventos = 'https://facartes.uniandes.edu.co/index.php/eventos'
-url_admin = 'https://administracion.uniandes.edu.co'
-page = requests.get('https://administracion.uniandes.edu.co/index.php/es/facultad/sobre-la-facultad/eventos')
+url_artes = 'https://facartes.uniandes.edu.co'
+page = requests.get(url_eventos)
 tree = html.fromstring(page.content)
-eventos_p1 = tree.xpath('//div[@class="title"]//a')
-link_principal = url_admin + eventos_p1[0].xpath('@href')[0]
-i = 0
+eventos_p1 = tree.xpath('//ul[@class="ev_ul"]')
+titulos = tree.xpath('//ul[@class="ev_ul"]//h2/text()')
+hora_fecha = tree.xpath('//ul[@class="ev_ul"]//span[@class="hf_event"]/text()')
+lugares = tree.xpath('//ul[@class="ev_ul"]//span[@class="lu_event"]/text()')
+links = tree.xpath('//ul[@class="ev_ul"]//a[@class="ev_link_row"]/@href')
+des = tree.xpath('//ul[@class="ev_ul"]//p/text()')
 data = []
+i = 0
+j = 0
 for evento in eventos_p1:
-	if i > 0:
-		link = url_admin + evento.xpath('@href')[0]
-		d = parse_admin_evento(link)
-		data.append(d)
-		print "- - - - - - - - - - - - - - - - - - -"
-		print "- - - - - - - - - - - - - - - - - - -"
-	i=i+1
+	nombre = titulos[i]
+	hora_str = hora_fecha[i]
+	fecha = hora_str
+	lugar_str = lugares[i]
+	link = url_artes + links[i]
+	if i == 0:
+		j = 3
+	if i == 1:
+		j = 8
+	if i == 2:
+		j = 13
+	if i == 3:
+		j = 18
+	resumen = des[j]
+	#d = parse_admin_evento(link)
+	#data.append(d)
+	i = i+1
+
+	resp = {}
+	resp['link'] = link
+	resp['nombre'] = nombre
+	resp['fecha'] = fecha
+	resp['resumen'] = resumen
+	resp['hora'] = hora_str
+	resp['lugar'] = lugar_str
+	resp['nombre_e'] = ""
+	resp['correo_e'] = ""
+	resp['dependencia'] = "Facultad de Artes"
+	resp['palabras'] = ""
+	data.append(resp)
+	print "- - - - - - - - - - - - - - - - - - -"
+	print "- - - - - - - - - - - - - - - - - - -"
 print data
-with open('admin.json', 'w') as outfile:
+with open('arte.json', 'w') as outfile:
 	json.dump(data, outfile)
