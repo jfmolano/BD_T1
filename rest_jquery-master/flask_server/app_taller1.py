@@ -5,6 +5,7 @@ import csv
 import json
 import io
 import re
+import codecs
 
 app = Flask(__name__)
 
@@ -51,24 +52,94 @@ def get_rss(A):
 	urlopinion= 'http://www.wsj.com/xml/rss/3_7041.xml'
 	urlworldnews='http://www.wsj.com/xml/rss/3_7085.xml'
 	urlusbusiness='http://www.wsj.com/xml/rss/3_7014.xml'
+	urlopinionhuff= 'http://www.huffingtonpost.com/feeds/verticals/politics/index.xml'
+	urlusbusinesshuff= 'http://www.huffingtonpost.com/feeds/verticals/politics/index.xml'
+	urlworldnewshuff= 'http://www.huffingtonpost.com/feeds/verticals/world/index.xml'
 	values={'s':'basics','submit':'search'}
 	reqOpinion=requests.get(urlopinion)
 	reqWorldNews=requests.get(urlworldnews)
 	reqUsBusiness=requests.get(urlusbusiness)
-	respDataOpinion = reqOpinion.text
-	respDataWorldNews = reqWorldNews.text
-	respDataUsBusiness = reqUsBusiness.text
+	reqOpinionHuff=requests.get(urlopinionhuff)
+	reqWorldNewsHuff=requests.get(urlworldnewshuff)
+	reqUsBusinessHuff=requests.get(urlusbusinesshuff)
+	respDataOpinion = reqOpinion.text.encode('ascii', 'ignore')
+	respDataWorldNews = reqWorldNews.text.encode('ascii', 'ignore')
+	respDataUsBusiness = reqUsBusiness.text.encode('ascii', 'ignore')
+	respDataOpinionHuff = reqOpinionHuff.text.encode('ascii', 'ignore')
+	respDataWorldNewsHuff = reqWorldNewsHuff.text.encode('ascii', 'ignore')
+	respDataUsBusinessHuff = reqUsBusinessHuff.text.encode('ascii', 'ignore')
 	items_opinion = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataOpinion))
+	items_world_news = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataWorldNews))
+	items_usbusiness = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataUsBusiness))
+	items_opinionHuff = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataOpinionHuff))
+	items_world_newsHuff = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataWorldNewsHuff))
+	items_usbusinessHuff = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataUsBusinessHuff))
 	items = []
+	items2 = []
+	items3 = []
+	itemsH = []
+	items2H = []
+	items3H = []
 	for eachP in items_opinion:
 		resp = {}
 		esta_en_titulo = re.findall(r'<title>(.*('+busqueda+').*)<\/title>',str(eachP))
 		esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
 		if len(esta_en_titulo) > 0 or len(esta_en_descripcion) > 0:
 			titulo = re.findall(r'<title>(.*?)<\/title>',str(eachP))
-			resp['titulo'] = titulo[0]
+			resp['titulo'] = titulo[0].replace("<!","")
 			items.append(resp)
-	return jsonify(items), 201
+	#print items
+	for eachP in items_world_news:
+		resp = {}
+		esta_en_titulo2 = re.findall(r'<title>(.*('+busqueda+').*)<\/title>',str(eachP))
+		esta_en_descripcion2 = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
+		if len(esta_en_titulo2) > 0 or len(esta_en_descripcion2) > 0:
+			titulo2 = re.findall(r'<title>(.*?)<\/title>',str(eachP))
+			resp['titulo'] = titulo2[0].replace("<!","")
+			items2.append(resp)
+	#print items2
+	for eachP in items_usbusiness:
+		resp = {}
+		esta_en_titulo3 = re.findall(r'<title>(.*('+busqueda+').*)<\/title>',str(eachP))
+		esta_en_descripcion3 = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
+		if len(esta_en_titulo3) > 0 or len(esta_en_descripcion3) > 0:
+			titulo3 = re.findall(r'<title>(.*?)<\/title>',str(eachP))
+			resp['titulo'] = titulo3[0].replace("<!","")
+			items3.append(resp)
+	#print items3
+	for eachP in items_opinionHuff:
+		resp = {}
+		esta_en_tituloH = re.findall(r'<title>\s?[\s\S]?!\[CDATA\[\s?(.*('+busqueda+').*)\s?\]\]>\s?<\/title>',str(eachP))
+		print "len(esta_en_tituloH) " + str(len(esta_en_tituloH))
+		#esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
+		if len(esta_en_tituloH) > 0:
+			tituloH = re.findall(r'<title>(.*?)<\/title>',str(eachP))
+			print "tituloH[0]: " + tituloH[0]
+			resp['titulo'] = tituloH[0].replace("<![CDATA","")
+			print resp
+			itemsH.append(resp)
+		print itemsH
+	#print itemsH
+	for eachP in items_world_newsHuff:
+		resp = {}
+		esta_en_titulo2H = re.findall(r'<title>\s[\s\S]!\[CDATA\[\s(.*('+busqueda+').*)\s\]\]>\s<\/title>',str(eachP))
+		#esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
+		if len(esta_en_titulo2H) > 0:
+			titulo2H = re.findall(r'<title>(.*?)<\/title>',str(eachP))
+			resp['titulo'] = titulo2H[0].replace("<![CDATA","")
+			items2H.append(resp)
+	#print items
+	for eachP in items_usbusinessHuff:
+		resp = {}
+		esta_en_titulo3H = re.findall(r'<title>\s[\s\S]!\[CDATA\[\s(.*('+busqueda+').*)\s\]\]>\s<\/title>',str(eachP))
+		#esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
+		if len(esta_en_titulo3H) > 0:
+			titulo3H = re.findall(r'<title>(.*?)<\/title>',str(eachP))
+			resp['titulo'] = titulo3H[0].replace("<![CDATA","")
+			items3H.append(resp)
+	lista_def = items+itemsH+items2+items2H+items3+items3H
+#print items3H
+	return jsonify(lista_def), 201
 
 @app.route('/api/suma', methods=['POST'])
 def dar_suma_post():

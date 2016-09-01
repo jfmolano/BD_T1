@@ -96,5 +96,5 @@ for evento in eventos_p1:
 	print "- - - - - - - - - - - - - - - - - - -"
 	print "- - - - - - - - - - - - - - - - - - -"
 print data
-with open('admin.json', 'w') as outfile:
+with open('arte.json', 'w') as outfile:
 	json.dump(data, outfile)
