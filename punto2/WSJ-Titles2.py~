@@ -1,6 +1,6 @@
 import requests
 import re
-busqueda = "KKK"
+busqueda = "EU"
 urlopinion= 'http://www.wsj.com/xml/rss/3_7041.xml'
 urlworldnews='http://www.wsj.com/xml/rss/3_7085.xml'
 urlusbusiness='http://www.wsj.com/xml/rss/3_7014.xml'
@@ -11,6 +11,7 @@ reqUsBusiness=requests.get(urlusbusiness)
 respDataOpinion = reqOpinion.text
 respDataWorldNews = reqWorldNews.text
 respDataUsBusiness = reqUsBusiness.text
+print str(respDataOpinion)
 items_opinion = re.findall(r'<item>[\s\S]*?<\/item>',str(respDataOpinion))
 items = []
 for eachP in items_opinion:

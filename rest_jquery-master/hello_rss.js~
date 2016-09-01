@@ -1,0 +1,22 @@
+$(document).ready(function() {
+
+    $("#Suma").click(function(){
+        url_get = "http://localhost:5000/api/rss/Trump"
+	trHTML = ''
+        console.log(url_get)
+        $('#resultado_text').text('');
+        $.ajax({
+	type: "GET",
+        url: url_get
+        }).then(function(data) {
+            console.log("data: ")
+            console.log(data)
+		$.each(data, function (i, item) {
+        	console.log(i)
+        	console.log(item)
+        trHTML += '<div>' + item["titulo"] + '</div>';
+    });
+    $('#resultado_text').append(trHTML);
+    });
+    });
+});
