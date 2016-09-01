@@ -115,7 +115,7 @@ def get_rss(A):
 		if len(esta_en_tituloH) > 0:
 			tituloH = re.findall(r'<title>(.*?)<\/title>',str(eachP))
 			print "tituloH[0]: " + tituloH[0]
-			resp['titulo'] = tituloH[0].replace("<!","")
+			resp['titulo'] = tituloH[0].replace("<![CDATA","")
 			print resp
 			itemsH.append(resp)
 		print itemsH
@@ -126,7 +126,7 @@ def get_rss(A):
 		#esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
 		if len(esta_en_titulo2H) > 0:
 			titulo2H = re.findall(r'<title>(.*?)<\/title>',str(eachP))
-			resp['titulo'] = titulo2H[0].replace("<!","")
+			resp['titulo'] = titulo2H[0].replace("<![CDATA","")
 			items2H.append(resp)
 	#print items
 	for eachP in items_usbusinessHuff:
@@ -135,7 +135,7 @@ def get_rss(A):
 		#esta_en_descripcion = re.findall(r'<description>(.*('+busqueda+').*)<\/description>',str(eachP))
 		if len(esta_en_titulo3H) > 0:
 			titulo3H = re.findall(r'<title>(.*?)<\/title>',str(eachP))
-			resp['titulo'] = titulo3H[0].replace("<!","")
+			resp['titulo'] = titulo3H[0].replace("<![CDATA","")
 			items3H.append(resp)
 	lista_def = items+itemsH+items2+items2H+items3+items3H
 #print items3H

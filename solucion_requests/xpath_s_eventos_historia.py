@@ -3,8 +3,8 @@ import requests
 import json
 
 #INICIO SCRIPT - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-url_eventos = 'https://c-politica.uniandes.edu.co/index.php/noticias-y-eventos'
-url_artes = 'https://c-politica.uniandes.edu.co'
+url_eventos = 'https://historia.uniandes.edu.co/index.php/noticias-y-eventos'
+url_artes = 'https://historia.uniandes.edu.co'
 page = requests.get(url_eventos)
 tree = html.fromstring(page.content)
 dias = tree.xpath('//div[@class="event"]//div[@class="day"]//text()')
@@ -13,7 +13,7 @@ anios = tree.xpath('//div[@class="event"]//div[@class="year"]//text()')
 palabras = tree.xpath('//div[@class="event"]//span[@class="cat"]//text()')
 titulos = tree.xpath('//div[@class="event"]//a[not(@class="more")]//text()')
 des = tree.xpath('//div[@class="event"]//span[@class="descshort"]//text()')
-links = tree.xpath('//div[@class="event"]//a[@class="more"]/@href')
+links = tree.xpath('//div[@class="event"]//a/@href')
 data = []
 i = 0
 for dia in dias:
@@ -22,7 +22,7 @@ for dia in dias:
 	fecha = dias[i] + " " + meses[i] + " " + anios[i]
 	lugar_str = ""
 	link = url_artes + links[i]
-	resumen = des[i*2]
+	resumen = des[i]
 	#d = parse_admin_evento(link)
 	#data.append(d)
 	i = i+1
@@ -35,11 +35,11 @@ for dia in dias:
 	resp['lugar'] = lugar_str
 	resp['nombre_e'] = ""
 	resp['correo_e'] = ""
-	resp['dependencia'] = "Departamento de Ciencias Politicas"
+	resp['dependencia'] = "Departamento de Historia"
 	resp['palabras'] = ""
 	data.append(resp)
 	print "- - - - - - - - - - - - - - - - - - -"
 	print "- - - - - - - - - - - - - - - - - - -"
 print data
-with open('cpol.json', 'w') as outfile:
+with open('historia.json', 'w') as outfile:
 	json.dump(data, outfile)

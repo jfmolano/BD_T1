@@ -36,7 +36,7 @@ for dia in dias:
 	resp['nombre_e'] = ""
 	resp['correo_e'] = ""
 	resp['dependencia'] = "Departamento de Ciencias Politicas"
-	resp['palabras'] = ""
+	resp['palabras'] = palabras[i]
 	data.append(resp)
 	print "- - - - - - - - - - - - - - - - - - -"
 	print "- - - - - - - - - - - - - - - - - - -"

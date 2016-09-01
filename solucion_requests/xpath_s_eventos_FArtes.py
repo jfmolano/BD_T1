@@ -64,8 +64,12 @@ i = 0
 j = 0
 for evento in eventos_p1:
 	nombre = titulos[i]
-	hora_str = hora_fecha[i].string.split("|")[0]
-	fecha = hora_fecha[i].string.split("|")[1]
+	try:
+		hora_str = hora_fecha[i].string.split("|")[0]
+		fecha = hora_fecha[i].string.split("|")[1]
+	except:
+		hora_str = ""
+		fecha = ""
 	lugar_str = lugares[i]
 	link = url_artes + links[i]
 	if i == 0:

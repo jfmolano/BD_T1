@@ -3,8 +3,8 @@ import requests
 import json
 
 #INICIO SCRIPT - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-url_eventos = 'https://c-politica.uniandes.edu.co/index.php/noticias-y-eventos'
-url_artes = 'https://c-politica.uniandes.edu.co'
+url_eventos = 'https://psicologia.uniandes.edu.co/index.php/noticias/eventos-anteriores'
+url_artes = 'https://psicologia.uniandes.edu.co'
 page = requests.get(url_eventos)
 tree = html.fromstring(page.content)
 dias = tree.xpath('//div[@class="event"]//div[@class="day"]//text()')
@@ -35,11 +35,11 @@ for dia in dias:
 	resp['lugar'] = lugar_str
 	resp['nombre_e'] = ""
 	resp['correo_e'] = ""
-	resp['dependencia'] = "Departamento de Ciencias Politicas"
+	resp['dependencia'] = "Departamento de Psicologia"
 	resp['palabras'] = ""
 	data.append(resp)
 	print "- - - - - - - - - - - - - - - - - - -"
 	print "- - - - - - - - - - - - - - - - - - -"
 print data
-with open('cpol.json', 'w') as outfile:
+with open('psicologia.json', 'w') as outfile:
 	json.dump(data, outfile)
